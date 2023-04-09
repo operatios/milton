@@ -77,6 +77,20 @@ platform_init(PlatformState* platform, SDL_SysWMinfo* sysinfo)
         milton_log("EasyTab failed to load. Code %d\n", easytab_res);
     }
 
+    // Set dark mode
+    {
+        void *handle = SDL_LoadObject("dwmapi.dll");
+        if (handle) {
+            typedef HRESULT (WINAPI *DwmSetWindowAttribute_t)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+            DwmSetWindowAttribute_t DwmSetWindowAttributeFunc = (DwmSetWindowAttribute_t)SDL_LoadFunction(handle, "DwmSetWindowAttribute");
+            if (DwmSetWindowAttributeFunc) {
+                BOOL value = TRUE;
+                int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+                DwmSetWindowAttributeFunc(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE , &value, sizeof(value));
+            }
+            SDL_UnloadObject(handle);
+        }
+    }
 }
 
 void

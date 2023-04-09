@@ -184,7 +184,7 @@ main()
              || (h < 4 + epsilon2 && h > 4 - epsilon2)
              || (h < 5 + epsilon2 && h > 5 - epsilon2)
              || (h < 6 + epsilon2 && h > 6 - epsilon2) ) {
-            color = vec4(0,0,0,1);
+            color = vec4(0.5,0.5,0.5,1);
         }
     }
 
